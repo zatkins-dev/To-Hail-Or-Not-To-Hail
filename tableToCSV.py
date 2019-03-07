@@ -29,8 +29,8 @@ def is_bad_row(row, schema):
         "gust": 999.9,
         "max": 9999.9,
         "min": 9999.9,
-        "prcp": 99.99,  # prcp and sndp may need a deeper look than just this
-        "sndp": 999.9,
+        # "prcp": 99.99,  # prcp and sndp may need a deeper look than just this
+        # "sndp": 999.9,
     }
 
     for col in schema:
@@ -47,29 +47,32 @@ def table_to_csv(year):
     # quick check to prevent duplicate requests
     if os.path.exists(f'csv/gsod{year}.csv'):
         print("File for this year already exists")
-        return
+        return False
 
     # first, get the data
     print(f'Getting data for {year}')
-    table = clean_table(get_full_table(year))
+    full_table = get_full_table(year)
+    print("Table found, now cleaning")
+    cleaned_table = clean_table(full_table)
 
     # check if any clean data was actually found
-    if len(table) == 0:
+    if len(cleaned_table) == 0:
         # if none was found, jump ship
         print(f'No clean data was found for {year}. Exiting...')
-        return
+        return False
     else:
-        print("Data retrieved! Writing to file...")
+        print(f"{len(cleaned_table)} rows retrieved! Writing to file...")
 
     # create a csv file, and a writer to fill it
     csv_file = open(f'csv/gsod{year}.csv', 'w')
     csv_writer = csv.writer(csv_file)
 
     # fill the table using the data retrieved
-    csv_writer.writerows(table)
+    csv_writer.writerows(cleaned_table)
 
     print("Done!")
 
     # close the file
     csv_file.close()
 
+    return True
