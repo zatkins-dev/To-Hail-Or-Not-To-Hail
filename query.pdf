@@ -1,0 +1,266 @@
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1929`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1930`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1931`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1932`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1933`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1934`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1935`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1936`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1937`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1938`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1939`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1940`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1941`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1942`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1943`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1944`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1945`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1946`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1947`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1948`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1949`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1950`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1951`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1952`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1953`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1954`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1955`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1956`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1957`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1958`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1959`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1960`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1961`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1962`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1963`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1964`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1965`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1966`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1967`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1968`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1969`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1970`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1971`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1972`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1973`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1974`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1975`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1976`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1977`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1978`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1979`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1980`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1981`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1982`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1983`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1984`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1985`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1986`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1987`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1988`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1989`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1990`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1991`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1992`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1993`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1994`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1995`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1996`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1997`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1998`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod1999`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2000`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2001`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2002`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2003`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2004`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2005`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2006`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2007`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2008`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2009`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2010`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2011`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2012`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2013`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2014`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2015`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2016`
+UNION ALL
+SELECT * FROM 
+        `bigquery-public-data.noaa_gsod.gsod2017`
