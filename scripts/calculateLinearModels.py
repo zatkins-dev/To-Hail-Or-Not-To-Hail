@@ -6,8 +6,9 @@ import itertools
 import time
 
 class CalculateLinearModels:
-    """The CalculateLinearModels class will employ best subset
-    selection to generate the 'best' linear regression models.
+    """The CalculateLinearModels class will employ exhaustive search to
+    calculate the linear models of all combinations of predictors, then
+    ranks the models by RSS.
 
     The CalculateLinearModels class will first read in the data stored
     in the fileName, then ensure all data is clean before continuing.
@@ -153,6 +154,16 @@ class CalculateLinearModels:
                     k += 1
     
     def summarizeModels(self):
+        """
+        A getter that prints out the regression model statistics for all of the "best" models.
+        """
         for i in range(len(self._listBestModels)):
             print(self._listBestModels[i][0].summary())
             print("\n")
+
+    def visualizeModels(self):
+        """
+        Create graphs of the regression models fit to the data.
+        """
+
+        
