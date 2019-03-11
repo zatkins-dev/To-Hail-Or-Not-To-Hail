@@ -20,5 +20,6 @@ from scripts import CalculateLinearModels
 
 def main():
     models = CalculateLinearModels("data/Highway1.csv", 5, 5, "rate")
+    models.summarizeModels()
 
 if __name__ == '__main__': main()

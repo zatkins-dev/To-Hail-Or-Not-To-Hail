@@ -151,7 +151,8 @@ class CalculateLinearModels:
                     list[k] = list2[j]
                     j += 1
                     k += 1
-            
-
-
-
+    
+    def summarizeModels(self):
+        for i in range(len(self._listBestModels)):
+            print(self._listBestModels[i][0].summary())
+            print("\n")
