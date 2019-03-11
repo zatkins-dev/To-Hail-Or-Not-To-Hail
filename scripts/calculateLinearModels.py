@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
-import statsmodels.api
+import statsmodels.api as sm
 import matplotlib.pyplot as plt
+import itertools
+import time
 
 class CalculateLinearModels:
     """The CalculateLinearModels class will employ best subset
@@ -33,21 +35,22 @@ class CalculateLinearModels:
             are smaller than numModels, the class will have a list of
             all the models.
         outcomeName: A string of the name of the column in the dataset 
-            that is being predicted."""
+            that is being predicted.
+            
+    Inspired from: http://www.science.smith.edu/~jcrouser/SDS293/labs/lab8-py.html"""
     
     def __init__(self, fileName, maxFeatures, numModels, outcomeName):
         """Initializes CalculateLinearModels, including reading in data.
         
         Raises:
             IOError: The data file has missing or invalid information.
-            NameError: The outcome name given is not a column in the
+            ValueError: The outcome name given is not a column in the
                 data file."""
         self._maxFeatures = maxFeatures
         self._numModels = numModels
         self._nameOutcome = outcomeName
 
         self._listModels = []
-        self._listModelsRSS = []
         self._listBestModels = []
 
         self._dataframe = pd.read_csv(fileName)
@@ -63,13 +66,92 @@ class CalculateLinearModels:
         # Ensure the outcome name is one of the column names,
         # raise exception otherwise.
         if(not(self._nameOutcome in self._columnHeaders)):
-            raise NameError("The outcome given is not in the data file.")
+            raise ValueError("The outcome given is not in the data file.")
 
         # With error checking complete, the dataframe needs to be split into
         # a feature dataframe and an outcome dataframe.
         self._outcomeDataframe = self._dataframe[self._nameOutcome]
         self._featureDataframe = self._dataframe.drop([self._nameOutcome], axis=1).astype('float64')
 
-        # testing
-        print(self._featureDataframe.head())
-        print(self._outcomeDataframe.head())
+        # Generate all models. This will get expensive. The first for loop handles the number of
+        # features, and the second for loop handles all the possible combinations of that number
+        # of features.
+        tic = time.time()
+        for i in range(1, self._maxFeatures + 1):
+            for combination in itertools.combinations(self._featureDataframe.columns.values.tolist(), i):
+                self._listModels.append(self.generateModel(combination))
+        toc = time.time()
+        print("Time to generate models:", (toc-tic), "seconds.")
+
+        self.mergeSort(self._listModels)
+        
+        for i in range(self._numModels):
+            self._listBestModels.append(self._listModels[i])
+        
+        print("Model computation complete.")
+    
+    def generateModel(self, featureSet):
+        """Creates a linear model with the feature set. 
+        
+        This allows for a user to call this function on specific features to
+        get a specific linear model. 
+
+        Args:
+            featureSet: The set of features to build a linear model with.
+
+        Returns:
+            A list of a linear model and its RSS.
+        
+        Raises:
+            ValueError: One or more features in the feature set do not exist.
+        """
+
+        # Ensure all of the features in the feature set exists in the feature 
+        # data frame, raise exception otherwise.
+        for feature in featureSet:
+            if(not(feature in self._columnHeaders)):
+                raise ValueError("One or more features in the feature set do not exist.")
+        
+        tempModel = sm.OLS(self._outcomeDataframe, self._featureDataframe[list(featureSet)]) # ordinary least squares
+        regressionModel = tempModel.fit()
+        RSS = ((regressionModel.predict(self._featureDataframe[list(featureSet)]) - self._outcomeDataframe) ** 2).sum()
+
+        return [regressionModel, RSS]
+
+    def mergeSort(self, list):
+        """The joys of computer science. This merge sort is designed to sort the model list by RSS
+        in ascending order. This will allow for the first n elements of the list to be the so called best models.
+
+        Inspired by the Python3 implementation of: https://www.geeksforgeeks.org/merge-sort/ 
+        """
+        if len(list) > 1:
+            list1 = list[:len(list)//2]
+            list2 = list[len(list)//2:]
+
+            # Activate the recursion!
+            self.mergeSort(list1)
+            self.mergeSort(list2)
+
+            i = j = k = 0
+
+            while(i < len(list1) or j < len(list2)):
+                if(i < len(list1) and j < len(list2)):
+                    if(list1[i][1] < list2[j][1]):
+                        list[k] = list1[i]
+                        i += 1
+                    else:
+                        list[k] = list2[j]
+                        j += 1
+                    k += 1
+                elif i < len(list1):
+                    list[k] = list1[i]
+                    i += 1
+                    k += 1
+                else:
+                    list[k] = list2[j]
+                    j += 1
+                    k += 1
+            
+
+
+
