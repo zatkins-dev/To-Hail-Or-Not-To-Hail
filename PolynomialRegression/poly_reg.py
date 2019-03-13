@@ -322,8 +322,8 @@ class PolyReg():
 
 
 
-if __name__ == '__main__':
-    pm = PolyReg(max_rows=100000,model_id='poly_model_100000',data_id='poly_data_100000',data_compression=0,data_ext='.joblib')
-    pm.run()
-    pm.model.get_results()
-    pm.save()
+# if __name__ == '__main__':
+#     pm = PolyReg(max_rows=100000,model_id='poly_model_100000',data_id='poly_data_100000',data_compression=0,data_ext='.joblib')
+#     pm.run()
+#     pm.model.get_results()
+#     pm.save()
