@@ -78,7 +78,7 @@ class Model():
                             if result_rename == 'y':
                                 self.id = input("New model id: > ")
                             else:
-                                raise Exception(f"Model creation failed - conflicting '{self.id}' already exists.")
+                                raise Exception("Model creation failed - conflicting '"+self.id+"' already exists.")
                 else:
                     conflict_resolved = True
                     model_loaded = True
@@ -100,8 +100,8 @@ class Model():
 
     def get_results(self):
         print("Train Data Results")
-        print(f"RMSE: {self.rmse}")
-        print(f"R-Squared: {self.r2}")
+        print("RMSE: " + str(self.rmse))
+        print("R-Squared: " + str(self.r2))
 
     def dump(self):
         if self.meta is None:
