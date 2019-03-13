@@ -95,12 +95,13 @@ class Model():
 
         target_predicted = self._model.predict(data_poly)
 
-        rmse = np.sqrt(mean_squared_error(train_data.data.loc[:,self.target], target_predicted))
-        r2 = r2_score(train_data.data.loc[:,self.target], target_predicted)
+        self.rmse = np.sqrt(mean_squared_error(train_data.data.loc[:,self.target], target_predicted))
+        self.r2 = r2_score(train_data.data.loc[:,self.target], target_predicted)
 
+    def get_results(self):
         print("Train Data Results")
-        print(f"RMSE: {rmse}")
-        print(f"R-Squared: {r2}")
+        print(f"RMSE: {self.rmse}")
+        print(f"R-Squared: {self.r2}")
 
     def dump(self):
         if self.meta is None:
@@ -140,8 +141,8 @@ class Model():
         )
 
     def update_paths(self):
-        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)),self._id+self._ext)
-        self._path_meta = os.path.join(os.path.dirname(os.path.abspath(__file__)),self._id+'.json')
+        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'model/',self._id+self._ext)
+        self._path_meta = os.path.join(os.path.dirname(os.path.abspath(__file__)),'model/',self._id+'.json')
 
     @property
     def id(self):
@@ -210,7 +211,7 @@ class Dataset():
                             if result_rename == 'y':
                                 data_id = input("New data id: > ")
                             else:
-                                raise Exception(f"Dataset creation failed - conflicting '{self.id}' already exists.")
+                                raise Exception("Dataset creation failed - conflicting '"+self.id+"' already exists.")
                 else:
                     self._data = load(self.path)
                     data_loaded = True
@@ -270,8 +271,8 @@ class Dataset():
         )
 
     def update_paths(self):
-        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)),self._id+self._ext)
-        self._path_meta = os.path.join(os.path.dirname(os.path.abspath(__file__)), self._id+'.json')
+        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/',self._id+self._ext)
+        self._path_meta = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/',self._id+'.json')
 
     @property
     def id(self):
@@ -322,6 +323,7 @@ class PolyReg():
 
 
 if __name__ == '__main__':
-    pm = PolyReg(max_rows=1000000,model_id='poly_model_1000000',data_id='poly_data_1000000',data_compression=0,data_ext='.joblib')
+    pm = PolyReg(max_rows=100000,model_id='poly_model_100000',data_id='poly_data_100000',data_compression=0,data_ext='.joblib')
     pm.run()
+    pm.model.get_results()
     pm.save()
