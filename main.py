@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # from google.cloud import bigquery
 
 # client = bigquery.Client()
@@ -56,3 +57,6 @@ def menu():
     print("4. Exit.")
 
 if __name__ == '__main__': main()
+=======
+
+>>>>>>> master
