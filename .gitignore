@@ -1,2 +1,4 @@
 cmle-env
 .vscode
+.vscode/*
+.vscode/settings.json
