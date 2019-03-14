@@ -198,15 +198,3 @@ class PolyReg():
                 if self.model_path is None: return
                 if not os.path.exists(self.model_path): break
             self.save()
-
-    
-if __name__ == '__main__':
-    pm = PolyReg.load_model_from_id('test_model')
-    if pm is None:
-        pm = PolyReg('test_model',max_rows=None)
-    pm.train()
-    pm.test()
-    pm.results()
-    pm.save()
-    pm.save_as(PolyReg.generate_model_path('test_model'))
-
