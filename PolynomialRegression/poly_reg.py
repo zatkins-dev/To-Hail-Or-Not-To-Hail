@@ -78,38 +78,7 @@ class Dataset():
         self._data = None
         self._table_name = table_name
         self._data_where = None
-        # data_loaded = False
-        # while not data_loaded:
-        #     if os.path.exists(self.path_meta):
-        #         old_data_meta = load(self.path_meta)
-        #         if set(old_data_meta['columns']) != self.columns:
-        #             conflict_resolved = False
-        #             while not conflict_resolved:
-        #                 print(
-        #                     "Existing dataset with conflicting columns '" + self.id + "' exists.")
-        #                 result_overwrite = ''
-        #                 while result_overwrite != 'y' and result_overwrite != 'n':
-        #                     result_overwrite = input(
-        #                         "Overwrite? (Y/n) > ").lower()
-        #                 if result_overwrite == 'y':
-        #                     os.remove(self.path_meta)
-        #                     os.remove(self.path)
-        #                 else:
-        #                     result_rename = ''
-        #                     while result_rename != 'y' and result_rename != 'n':
-        #                         result_rename = input(
-        #                             "Give new data id? (Y/n) > ").lower()
-        #                     if result_rename == 'y':
-        #                         data_id = input("New data id: > ")
-        #                     else:
-        #                         raise Exception(
-        #                             "Dataset creation failed - conflicting '"+self.id+"' already exists.")
-        #         else:
-        #             self._data = load(self.path)
-        #             data_loaded = True
-        #     else:
         self.load_new_data()
-        data_loaded = True
 
     def __del__(self):
         del self._data
@@ -123,7 +92,7 @@ class Dataset():
         gsod_clean = client.get_table(gsod_dset.table(self._table_name))
         if self._max_size is not None:
             self._data = client.list_rows(
-                gsod_clean, max_results=self._max_size).to_dataframe()
+                gsod_clean, max_results=self._max_size).to_dataframe().order_by()
         else:
             self._data = client.list_rows(gsod_clean).to_dataframe()
         if self._data_where is not None:
