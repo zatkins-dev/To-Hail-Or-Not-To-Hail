@@ -27,7 +27,7 @@ class Model():
         data_poly = self._poly_features.fit_transform(
             train_data.data.loc[:, self.features])
 
-        self._model = Ridge(alpha=np.finfo.max)
+        self._model = Ridge(alpha=1./1e12)
         self._model.fit(data_poly, train_data.data.loc[:, self.target])
 
         target_predicted = self._model.predict(data_poly)
