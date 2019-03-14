@@ -16,7 +16,7 @@
 
 # print (schema)
 
-from scripts import CalculateLinearModels
+from scripts import modeltest,CalculateLinearModels
 
 def main():
     choice = 0
@@ -55,4 +55,4 @@ def menu():
     print("3. See visualization of linear models.")
     print("4. Exit.")
 
-if __name__ == '__main__': main()
+if __name__ == '__main__': modeltest.run(),main()
