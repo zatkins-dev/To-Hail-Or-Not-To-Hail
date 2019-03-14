@@ -16,7 +16,7 @@ class PolyReg():
         self.test_results = None
         self.model_path = path
         if self.model_path and os.path.exists(self.model_path):
-            raise Warning(f"Warning: Model already exists at: \n'\t{self.model_path}'.\n.")
+            raise Warning("Warning: Model already exists at: \n'\t{path}'.\n.".format(path=self.model_path))
 
     def train(self,degree=2):
         if self.model is not None:
