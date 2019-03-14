@@ -22,13 +22,14 @@ class Dataset():
         gsod_clean = client.get_table(gsod_dset.table(self._table_name))
         if self._max_size is not None:
             self._data = client.list_rows(
-                gsod_clean, max_results=self._max_size).to_dataframe()
+                gsod_clean, max_results=self._max_size).to_dataframe().sort_values(by=['date','stn'])
         else:
             self._data = client.list_rows(gsod_clean).to_dataframe()
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),self._columns].dropna()
         else:
             self._data = self._data.loc[:, self._columns].dropna()
+        self._data = self._data
 
     @property
     def columns(self):
