@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import RidgeRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import PolynomialFeatures
 
@@ -27,7 +27,7 @@ class Model():
         data_poly = self._poly_features.fit_transform(
             train_data.data.loc[:, self.features])
 
-        self._model = LinearRegression()
+        self._model = RidgeRegression()
         self._model.fit(data_poly, train_data.data.loc[:, self.target])
 
         target_predicted = self._model.predict(data_poly)
