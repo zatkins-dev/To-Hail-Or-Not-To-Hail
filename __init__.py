@@ -1,2 +1,2 @@
+from . import scripts,modeling
 from .main import main
-from PolynomialRegression.poly_reg import *
