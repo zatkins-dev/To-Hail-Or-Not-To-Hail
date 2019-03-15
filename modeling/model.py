@@ -19,15 +19,16 @@ class Model():
                 response = input("Continue? (Y/n) > ").lower()
             if response == 'n':
                 return
-        self._target = set([target])
-        self._features = train_data.columns - self._target
+        self._target = list([target])
+        self._features = train_data.columns
+        self._features.remove(target)
         self._degree = degree
         self._poly_features = PolynomialFeatures(degree=self._degree)
 
         data_poly = self._poly_features.fit_transform(
             train_data.data.loc[:, self.features])
 
-        self._model = Ridge(alpha=1./1e12)
+        self._model = Ridge(alpha=1e12)
         self._model.fit(data_poly, train_data.data.loc[:, self.target])
 
         target_predicted = self._model.predict(data_poly)

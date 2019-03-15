@@ -7,7 +7,7 @@ import os
 from . import Dataset,Model
 
 class PolyReg():
-    def __init__(self, model_id, model_ext='.joblib', path=None,max_rows=100000, data_columns=['mo','temp', 'dewp', 'slp', 'stp', 'visib', 'wdsp', 'max', 'min', 'altitude', 'longitude', 'latitude', 'prcp'], data_where=None,target='temp', model_compress=0):
+    def __init__(self, model_id, model_ext='.joblib', path=None,max_rows=100000, data_columns=['mo','temp', 'dewp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp'], data_where=None,target='temp', model_compress=0):
         self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
         self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
         self.model = None
