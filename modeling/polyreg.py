@@ -135,8 +135,6 @@ class PolyReg():
                     for file in ['model','poly_features','train_data','test_data']:
                         if os.path.exists(os.path.join(path,file+'.joblib')):
                             os.remove(os.path.join(path,file+'.joblib'))
-                    self.save()
-                    return
             else:
                 path = easygui.diropenbox(msg='Save as..',title='Save PolyReg Files',default="./")
                 if path is None: return
