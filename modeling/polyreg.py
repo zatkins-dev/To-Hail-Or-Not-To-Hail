@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from joblib import dump, load
+from sklearn.externals.joblib import dump, load
+import pickle
 from functools import reduce
 import easygui 
 import os
@@ -8,25 +9,33 @@ from . import Dataset,Model
 
 class PolyReg():
     def __init__(self, model_id, model_ext='.joblib', path=None,max_rows=100000, data_columns=['mo','temp', 'dewp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp'], data_where=None,target='temp', model_compress=0):
-        self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
-        self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
-        self.model = None
+        self.model_id = None
+        self.model_path = path
+        self.model = Model()
         self.target = target
         self.train_results = None
         self.test_results = None
-        self.model_path = path
+        if self.model_path is not None:
+            self.model = Model()
+            self.train_data = Dataset(columns=None)
+            self.test_data = Dataset(columns=None)
+            self.load_model_from_path(path)
+            return
+        self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
+        self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
+
+        
         if self.model_path and os.path.exists(self.model_path):
             raise Warning("Warning: Model already exists at: \n'\t{path}'.\n.".format(path=self.model_path))
 
     def train(self,degree=2):
-        if self.model is not None:
+        if self.model.model is not None:
             print("Warning: Existing model will be overwritten.")
             response = ''
             while response != 'y' and response != 'n':
                 response = input("Continue? (Y/n) > ").lower()
             if response == 'n':
                 return
-        self.model = Model()
         self.train_results = self.model.train(self.target, self.train_data, degree=degree)
 
     def test(self):
@@ -44,54 +53,98 @@ class PolyReg():
         return reduce(lambda s1,s2: s1+s2,["    {0}: {1}\n".format(kv[0],kv[1]) for kv in results.items()])
     
     @classmethod
-    def generate_model_path(cls, id, ext='.joblib', dirpath=os.path.dirname(os.path.abspath(__file__))):
-        return os.path.join(dirpath, 'model/', id+ext)
+    def generate_model_path(cls, id, ext='.joblib', dirpath=os.path.dirname(os.path.abspath(__file__))+'model/'):
+        return os.path.join(dirpath, id)
 
     @classmethod
     def load_model_from_id(cls,id,ext='.joblib',dir=None):
         if dir is None:
             path = cls.generate_model_path(id) 
         else:
-            path = os.path.join(dir, id+ext)
+            path = os.path.join(dir, id)
         if os.path.exists(path):
-            pm = load(path)
-            pm.model_path = path
+            pm = PolyReg(id,path=path)
             return pm
         else:
             return None
     
     @classmethod
-    def load_model_from_path(cls,path):
+    def load_model_from_path_s(cls,path):
         if os.path.exists(path):
-            pm = load(path)
-            pm.model_path = path
+            pm = PolyReg(id,path=path)
             return pm
         else:
             return None
+
+    def load_model_from_path(self,path):
+        if os.path.exists(path):
+            print("Loading PolyReg...")
+            self.train_data._data = load(os.path.join(path,'train_data.joblib'))
+            print(" --> Train Data loaded.")
+            self.test_data._data = load(os.path.join(path,'test_data.joblib'))
+            print(" --> Test Data loaded.")
+            self.model._model = load(os.path.join(path,'model.joblib'))
+            print(" --> Model loaded.")
+            if os.path.exists(os.path.join(path,'target.joblib')):
+                self.target = load(os.path.join(path,'target.joblib'))
+                self.model._target = [self.target]
+                self.model._features = self.train_data.columns
+                self.model._features.remove(self.target)
+                print("   --> Model metadata loaded.")
+            self.model._poly_features = load(os.path.join(path,'poly_features.joblib'))
+            print(" --> PolynomialFeatures loaded.")
+            self.model_path = path
+            print('PolyReg loaded.')
+
+        else:
+            print('PolyReg files not found')
+
 
     def save(self):
         if self.model_path is None:
             self.save_as(self.model_path)
         else:
-            dump(self, self.model_path)
+            try:
+                os.mkdir(self.model_path)
+            except FileExistsError as error:
+                pass
+            if self.target is not None:
+                dump(self.target, os.path.join(self.model_path,'target.joblib'))
+            dump(self.model._model, os.path.join(self.model_path,'model.joblib'))
+            dump(self.model._poly_features, os.path.join(self.model_path,'poly_features.joblib'))
+            dump(self.train_data._data, os.path.join(self.model_path,'train_data.joblib'))
+            dump(self.test_data._data, os.path.join(self.model_path,'test_data.joblib'))
     
     def save_as(self,path):
         print("Save as...")
-        if path is not None:
-            self.model_path = path
-            if not os.path.exists(self.model_path): 
-                self.save()
-                return
-            print("Warning: Existing file will be overwritten.")
-            response = ''
-            while response != 'y' and response != 'n':
-                response = input("Continue? (Y/n) > ").lower()
-            if response == 'y':
-                os.remove(path)
-                self.save()
-        else:
-            while True:
-                self.model_path = easygui.filesavebox(msg='Save as..',title='Save PolyReg Instance',default="*.joblib",filetypes=["*.joblib"])
-                if self.model_path is None: return
-                if not os.path.exists(self.model_path): break
-            self.save()
+        while True:
+            if path is not None:
+                self.model_path = path
+                files_exist = False
+                for file in ['model','poly_features','train_data','test_data']:
+                    if os.path.exists(os.path.join(path,file+'.joblib')):
+                        files_exist = True
+                if not files_exist: 
+                    self.save()
+                    return
+                print("Warning: Existing files will be overwritten.")
+                response = ''
+                while response != 'y' and response != 'n':
+                    response = input("Continue? (Y/n) > ").lower()
+                if response == 'y':
+                    for file in ['model','poly_features','train_data','test_data']:
+                        if os.path.exists(os.path.join(path,file+'.joblib')):
+                            os.remove(os.path.join(path,file+'.joblib'))
+                    self.save()
+                    return
+            else:
+                path = easygui.diropenbox(msg='Save as..',title='Save PolyReg Files',default="./")
+                if path is None: return
+                files_exist = False
+
+if __name__ == '__main__':
+    pm = PolyReg('test_model',max_rows=10000)
+    pm.train()
+    pm.test()
+    pm.results()
+    pm.save()

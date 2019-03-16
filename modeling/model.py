@@ -19,7 +19,7 @@ class Model():
                 response = input("Continue? (Y/n) > ").lower()
             if response == 'n':
                 return
-        self._target = list([target])
+        self._target = [target]
         self._features = train_data.columns
         self._features.remove(target)
         self._degree = degree
@@ -28,7 +28,7 @@ class Model():
         data_poly = self._poly_features.fit_transform(
             train_data.data.loc[:, self.features])
 
-        self._model = Ridge(alpha=1e12)
+        self._model = Ridge()
         self._model.fit(data_poly, train_data.data.loc[:, self.target])
 
         target_predicted = self._model.predict(data_poly)
@@ -36,7 +36,7 @@ class Model():
         rmse = np.sqrt(mean_squared_error(
             train_data.data.loc[:, self.target], target_predicted))
         r2 = r2_score(train_data.data.loc[:, self.target], target_predicted)
-
+        print([rmse,r2])
         return {'RMSE':rmse, 'R-Squared':r2}
 
     def test(self, test_data):
@@ -47,7 +47,7 @@ class Model():
         rmse = np.sqrt(mean_squared_error(
             test_data.data.loc[:, self.target], test_predicted))
         r2 = r2_score(test_data.data.loc[:, self.target], test_predicted)
-
+        print([rmse,r2])
         return {'RMSE':rmse, 'R-Squared':r2}
 
     @property

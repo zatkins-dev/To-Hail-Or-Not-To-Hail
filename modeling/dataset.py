@@ -4,11 +4,14 @@ from google.cloud import bigquery
 class Dataset():
     def __init__(self, table_name='train',columns=None, max_size=None, data_where=None):
         self._max_size = max_size
-        self._columns = list(columns)
         self._data = None
         self._table_name = table_name
         self._data_where = None
-        self.load_new_data()
+        if columns is not None:
+            self._columns = list(columns)
+            self.load_new_data()
+        else:
+            self._columns = None
 
     def __del__(self):
         del self._data
@@ -27,8 +30,8 @@ class Dataset():
             self._data = client.list_rows(gsod_clean).to_dataframe()
         if self._columns.count('mo')>0:
             self._data = self._data.astype({'mo':'float64'})
-        if self._columns.count('prcp')>0:
-            self._data = self._data.astype({'prcp':'float64'})
+        if self._columns.count('wdsp')>0:
+            self._data = self._data.astype({'wdsp':'float64'})
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),self._columns].dropna()
         else:
@@ -37,6 +40,8 @@ class Dataset():
 
     @property
     def columns(self):
+        if self._columns is None and self._data is not None:
+            self._columns = list(self._data.columns)
         return self._columns
 
     @property
