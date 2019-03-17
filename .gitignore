@@ -1,4 +1,7 @@
 cmle-env
-.vscode
+.vscode/
 .vscode/*
 .vscode/settings.json
+modeling/models/
+__pycache__/
+__pycache__/*
