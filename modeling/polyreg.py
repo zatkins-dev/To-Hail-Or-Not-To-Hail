@@ -53,7 +53,7 @@ class PolyReg():
         return reduce(lambda s1,s2: s1+s2,["    {0}: {1}\n".format(kv[0],kv[1]) for kv in results.items()])
     
     @classmethod
-    def generate_model_path(cls, id, ext='.joblib', dirpath=os.path.dirname(os.path.abspath(__file__))+'model/'):
+    def generate_model_path(cls, id, ext='.joblib', dirpath=os.path.dirname(os.path.abspath(__file__))+'/models/'):
         return os.path.join(dirpath, id)
 
     @classmethod
@@ -141,8 +141,8 @@ class PolyReg():
                 files_exist = False
 
 if __name__ == '__main__':
-    pm = PolyReg('test_model',max_rows=10000)
+    pm = PolyReg('full_model',max_rows=None)
     pm.train()
     pm.test()
     pm.results()
-    pm.save()
+    pm.save_as(PolyReg.generate_model_path('full_model'))

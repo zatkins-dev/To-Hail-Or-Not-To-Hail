@@ -28,12 +28,10 @@ class Dataset():
                 gsod_clean, max_results=self._max_size).to_dataframe()
         else:
             self._data = client.list_rows(gsod_clean).to_dataframe()
-        if self._columns.count('mo')>0:
-            self._data = self._data.astype({'mo':'float64'})
-        if self._columns.count('wdsp')>0:
-            self._data = self._data.astype({'wdsp':'float64'})
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),self._columns].dropna()
+            cols = self._data.columns[self._data.dtypes.eq('object')]
+            self._data[cols] = self._data[cols].apply(pd.to_numeric, errors='coerce')
         else:
             self._data = self._data.loc[:, self._columns].dropna()
         self._data = self._data
