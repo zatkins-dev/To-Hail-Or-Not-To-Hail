@@ -5,3 +5,5 @@ cmle-env
 modeling/models/
 __pycache__/
 __pycache__/*
+.vs/
+.vs/*
