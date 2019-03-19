@@ -15,12 +15,12 @@ def main():
         numrows = int(input("Max number of rows in model: > "))
         degree = int(input("Degree of polynomial regression: > "))
         print("Creating test model.")
-        model = PolyReg(id,max_rows=numrows,data_columns=['mo','temp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
+        model = PolyReg(id,max_rows=numrows,data_columns=['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
     elif model_choice == 2:
         id = str(input("Model id: > "))
         degree = int(input("Degree of polynomial regression: > "))
         print("Creating full model.")
-        model = PolyReg(id,max_rows=None,data_columns=['mo','temp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
+        model = PolyReg(id,max_rows=None,data_columns=['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
     
     print("  --> Data Loaded")
     train_desc = model.train_data._data.describe()

@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.externals.joblib import dump, load
+from statsmodels.stats.anova import anova_lm
 import pickle
 from functools import reduce
 import easygui 
@@ -8,7 +9,7 @@ import os
 from . import Dataset,Model
 
 class PolyReg():
-    def __init__(self, model_id, model_ext='.joblib', path=None,max_rows=100000, data_columns=['mo','temp', 'dewp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp'], data_where=None,target='temp', model_compress=0):
+    def __init__(self, model_id, model_ext='.joblib', train_data_path=None,test_data_path=None,path=None,max_rows=100000, data_columns=['mo','temp', 'dewp', 'slp', 'stp', 'visib', 'wdsp', 'altitude', 'longitude', 'latitude', 'prcp'], data_where=None,target='temp', model_compress=0):
         self.model_id = None
         self.model_path = path
         self.model = Model()
@@ -21,12 +22,16 @@ class PolyReg():
             self.test_data = Dataset(columns=None)
             self.load_model_from_path(path)
             return
-        self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
-        self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
-
-        
-        if self.model_path and os.path.exists(self.model_path):
-            raise Warning("Warning: Model already exists at: \n'\t{path}'.\n.".format(path=self.model_path))
+        if train_data_path is not None:
+            self.train_data = Dataset(columns=None)
+            self.train_data._data = load(train_data_path)
+        else:
+            self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
+        if test_data_path is not None:
+            self.test_data = Dataset(columns=None)
+            self.test_data._data = load(test_data_path)
+        else:
+            self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
 
     def train(self,degree=2):
         if self.model.model is not None:
