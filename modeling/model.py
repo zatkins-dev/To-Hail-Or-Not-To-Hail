@@ -3,7 +3,6 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score, explained_variance_score, mean_absolute_error
 from sklearn.preprocessing import PolynomialFeatures
-import multiprocessing
 
 class Model():
     def __init__(self):
@@ -24,15 +23,14 @@ class Model():
         self._features = train_data.columns
         self._features.remove(target)
         self._degree = degree
-        self._model = LinearRegression(n_jobs=multiprocessing.cpu_count())
         target_predicted = None
         if self._degree is None or self._degree < 2:
-            self._model.fit(train_data, train_data.data.loc[:, self.target])
-            target_predicted = self._model.predict(train_data.loc[:, self.features])
+            self._model = LinearRegression().fit(train_data.data.loc[:, self.features], train_data.data.loc[:, self.target])
+            target_predicted = self._model.predict(train_data.data.loc[:, self.features])
         else:
             self._poly_features = PolynomialFeatures(degree=self._degree)
             data_poly = self._poly_features.fit_transform(train_data.data.loc[:, self.features])
-            self._model.fit(data_poly, train_data.data.loc[:, self.target])
+            self._model = LinearRegression().fit(data_poly, train_data.data.loc[:, self.target])
             target_predicted = self._model.predict(data_poly)
 
         me = mean_absolute_error(train_data.data.loc[:, self.target], target_predicted)
@@ -44,9 +42,9 @@ class Model():
     def test(self, test_data):
         test_predicted = None
         if self._degree is None or self._degree < 2:
-            test_predicted = self._model.predict(test_data[:,self._features])
+            test_predicted = self._model.predict(test_data.data.loc[:,self._features])
         else:
-            test_poly = self._poly_features.transform(test_data.data.loc[:, self.features])
+            test_poly = self._poly_features.fit_transform(test_data.data.loc[:, self.features])
             test_predicted = self._model.predict(test_poly)
 
         me = mean_absolute_error(test_data.data.loc[:, self.target], test_predicted)

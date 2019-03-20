@@ -22,16 +22,20 @@ class PolyReg():
             self.test_data = Dataset(columns=None)
             self.load_model_from_path(path)
             return
+        print("  --> Loading Train Data")        
         if train_data_path is not None:
             self.train_data = Dataset(columns=None)
             self.train_data._data = load(train_data_path)
         else:
             self.train_data = Dataset(columns=data_columns, max_size=max_rows,data_where=data_where)
+        print("  --> Train Data Loaded")
+        print("  --> Loading Test Data")        
         if test_data_path is not None:
             self.test_data = Dataset(columns=None)
             self.test_data._data = load(test_data_path)
         else:
             self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/5),data_where=data_where)
+        print("  --> Loading Test Data")                
 
     def train(self,degree=2):
         if self.model.model is not None:
@@ -47,15 +51,15 @@ class PolyReg():
         self.test_results = self.model.test(self.test_data)
 
     def results(self):
-        print("Train Results:")
+        print("    --> Train Results:")
         print(self.format_results(self.train_results))
-        print("Test Results:")
+        print("    --> Test Results:")
         print(self.format_results(self.test_results))
         
     def format_results(self,results):
         if results is None:
-            return '    No Results.\n'
-        return reduce(lambda s1,s2: s1+s2,["    {0}: {1}\n".format(kv[0],kv[1]) for kv in results.items()])
+            return '        No Results.\n'
+        return reduce(lambda s1,s2: s1+s2,["         *  {0}: {1}\n".format(kv[0],kv[1]) for kv in results.items()])
     
     @classmethod
     def generate_model_path(cls, id, ext='.joblib', dirpath=os.path.dirname(os.path.abspath(__file__))+'/models/'):

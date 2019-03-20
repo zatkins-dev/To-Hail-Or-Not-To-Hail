@@ -1,6 +1,9 @@
 from . import PolyReg
+from functools import reduce
 
 def main():
+    cols = ['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud']
+    target = 'temp'
     model_choice = 0
     while not (model_choice == 1 or model_choice == 2):
         try:
@@ -10,17 +13,17 @@ def main():
     
     id = None
     degree = 0
+    id = str(input("Model id: > "))
+    degree = int(input("Degree of polynomial regression [2]: > ") or 2)
+    train_data_path = input("Train data path [None]: > ") or None
+    test_data_path = input("Test data path [None]: > ") or None
     if model_choice == 1:
-        id = str(input("Model id: > "))
-        numrows = int(input("Max number of rows in model: > "))
-        degree = int(input("Degree of polynomial regression: > "))
+        numrows = int(input("Max number of rows in model [100000]: > ") or 100000)
         print("Creating test model.")
-        model = PolyReg(id,max_rows=numrows,data_columns=['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
+        model = PolyReg(id,max_rows=numrows,train_data_path=train_data_path,test_data_path=test_data_path,data_columns=cols)
     elif model_choice == 2:
-        id = str(input("Model id: > "))
-        degree = int(input("Degree of polynomial regression: > "))
         print("Creating full model.")
-        model = PolyReg(id,max_rows=None,data_columns=['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
+        model = PolyReg(id,max_rows=None,train_data_path=train_data_path,test_data_path=test_data_path,data_columns=cols)
     
     print("  --> Data Loaded")
     model.save_file('train_data',dir_path=PolyReg.generate_model_path(id))
@@ -35,6 +38,20 @@ def main():
     print("  --> Model Initialized")
     model.train(degree=degree)
     print("  --> Model Trained")
+    features = cols
+    features.remove(target) 
+    if degree > 1:
+        features = model.model._poly_features.get_feature_names(features)
+    coefs = model.model.model.coef_[0]
+    inter = model.model.model.intercept_[0]
+    eqn = f"{round(inter,5)}"
+    for i in range(1,len(features)):
+        if len(eqn)>64 and eqn.rfind('\n',len(eqn)-65) == -1:
+            eqn += "\n            "+" + "+f"{round(coefs[i],5)}({features[i]})"
+        else:
+            eqn += " + "+f"{round(coefs[i],5)}({features[i]})"
+    print("    --> Model equation:")
+    print(f"        {target} = {eqn}")
     model.test()
     print("  --> Model Tested")
     model.results()

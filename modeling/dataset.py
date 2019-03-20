@@ -27,18 +27,18 @@ class Dataset():
         table = client.get_table(table_ref)
         schema_subset = [col for col in table.schema if col.name in self._columns]
         rows = client.list_rows(table, selected_fields=schema_subset,max_results=max_rows)
-        print("Generating dataframe...")
+        print("      --> Generating dataframe...")
         start = time.perf_counter()
         self._data = rows.to_dataframe(dtypes=dtypes)
         cost = time.perf_counter() - start
-        print("Generated dataframe ({} s).".format(cost))
+        print("      --> Generated dataframe ({} s).".format(cost))
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),:].dropna()
         else:
             start = time.perf_counter()
             self._data = self._data.dropna()
             cost = time.perf_counter() - start
-            print("Removed n/a values ({} s).".format(cost))
+            print("      --> Removed n/a values ({} s).".format(cost))
 
     def load_new_data(self):
         storage_client = bigquery_storage_v1beta1.BigQueryStorageClient()
@@ -58,35 +58,18 @@ class Dataset():
             bigquery_storage_v1beta1.types.StreamPosition(stream=session.streams[0])
         )
         dtypes = dict([(c, 'float64') for c in self._columns])
-        print("Generating dataframe...")
+        print("  --> Generating dataframe...")
         start = time.perf_counter()
         self._data = reader.to_dataframe(session,dtypes=dtypes)
         cost = time.perf_counter() - start
-        print("Generated dataframe ({} s).".format(cost))
-        print(self._data.dtypes)
-        # table_ref = bigquery.table.TableReference.from_string('to-hail-or-not-to-hail.gsod_copy.{}'.format(self._table_name))
-        # table = client.get_table(table_ref)
-        # rows = None
-        # schema_subset = [col for col in table.schema if col.name in self._columns]
-        # if self._max_size is not None:
-        #     rows = client.list_rows(table, selected_fields=schema_subset,max_results=self._max_size)
-        # else:
-        #     rows = client.list_rows(table,selected_fields=schema_subset)
-        
-        # print("Generating dataframe...")
-
-        # self._data = rows.to_dataframe()
-
-        # print("Dataframe generated.")
-
-        
+        print("  --> Generated dataframe ({} s).".format(cost))
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),:].dropna()
         else:
             start = time.perf_counter()
             self._data = self._data.dropna()
             cost = time.perf_counter() - start
-            print("Removed n/a values ({} s).".format(cost))
+            print("  --> Removed n/a values ({} s).".format(cost))
 
     @property
     def columns(self):
