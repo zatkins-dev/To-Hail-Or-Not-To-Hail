@@ -31,7 +31,7 @@ class PolyReg():
             self.test_data = Dataset(columns=None)
             self.test_data._data = load(test_data_path)
         else:
-            self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/10),data_where=data_where)
+            self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/5),data_where=data_where)
 
     def train(self,degree=2):
         if self.model.model is not None:
@@ -108,18 +108,43 @@ class PolyReg():
     def save(self):
         if self.model_path is None:
             self.save_as(self.model_path)
-        else:
-            try:
-                os.mkdir(self.model_path)
-            except FileExistsError as error:
-                pass
-            if self.target is not None:
-                dump(self.target, os.path.join(self.model_path,'target.joblib'))
-            dump(self.model._model, os.path.join(self.model_path,'model.joblib'))
-            dump(self.model._poly_features, os.path.join(self.model_path,'poly_features.joblib'))
-            dump(self.train_data._data, os.path.join(self.model_path,'train_data.joblib'))
-            dump(self.test_data._data, os.path.join(self.model_path,'test_data.joblib'))
+        if self.model_path is None: return
+        try:
+            os.mkdir(self.model_path)
+        except FileExistsError as error:
+            pass
+        if self.target is not None:
+            dump(self.target, os.path.join(self.model_path,'target.joblib'))
+        dump(self.model._model, os.path.join(self.model_path,'model.joblib'))
+        dump(self.model._poly_features, os.path.join(self.model_path,'poly_features.joblib'))
+        dump(self.train_data._data, os.path.join(self.model_path,'train_data.joblib'))
+        dump(self.test_data._data, os.path.join(self.model_path,'test_data.joblib'))
     
+    def save_file(self,file,dir_path=None):
+        if dir_path is None:
+                dir_path = self.set_path()
+                if dir_path is None: return
+        try:
+            os.mkdir(dir_path)
+        except FileExistsError as error:
+            pass
+        if os.path.exists(os.path.join(dir_path,file+'.joblib')):
+            os.remove(os.path.join(dir_path,file+'.joblib'))
+        if file == 'model':
+            if self.target is not None:
+                dump(self.target, os.path.join(dir_path,'target.joblib'))
+            dump(self.model._model, os.path.join(dir_path,'model.joblib'))
+        elif file == 'train_data':
+            dump(self.train_data._data, os.path.join(dir_path,'train_data.joblib'))
+        elif file == 'test_data':
+            dump(self.test_data._data, os.path.join(dir_path,'test_data.joblib'))
+
+    def set_path(self):
+        path = easygui.diropenbox(msg='Save as..',title='Save PolyReg Files',default="./")
+        if path is None: return
+        return path
+
+
     def save_as(self,path):
         print("Save as...")
         while True:

@@ -23,6 +23,9 @@ def main():
         model = PolyReg(id,max_rows=None,data_columns=['mo','temp', 'dewp','slp', 'stp', 'visib', 'wdsp', 'altitude', 'latitude', 'prcp','fog','rain_drizzle','snow_ice_pellets','hail','tornado_funnel_cloud'])
     
     print("  --> Data Loaded")
+    model.save_file('train_data',dir_path=PolyReg.generate_model_path(id))
+    model.save_file('test_data',dir_path=PolyReg.generate_model_path(id))
+
     train_desc = model.train_data._data.describe()
     test_desc = model.test_data._data.describe()
     print("    --> Train Data Summary")
@@ -35,8 +38,7 @@ def main():
     model.test()
     print("  --> Model Tested")
     model.results()
-    model.save_as(PolyReg.generate_model_path(id))
-
+    model.save_file('model',dir_path=PolyReg.generate_model_path(id))
 
 if __name__ == '__main__':
     main()
