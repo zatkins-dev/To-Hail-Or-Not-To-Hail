@@ -27,18 +27,18 @@ class Dataset():
         table = client.get_table(table_ref)
         schema_subset = [col for col in table.schema if col.name in self._columns]
         rows = client.list_rows(table, selected_fields=schema_subset,max_results=max_rows)
-        print("      --> Generating dataframe...")
+        print("    --> Generating dataframe...")
         start = time.perf_counter()
         self._data = rows.to_dataframe(dtypes=dtypes)
         cost = time.perf_counter() - start
-        print("      --> Generated dataframe ({} s).".format(cost))
+        print("    --> Generated dataframe ({} s).".format(cost))
         if self._data_where is not None:
             self._data = self._data.loc[self._data.index.map(self._data_where),:].dropna()
         else:
             start = time.perf_counter()
             self._data = self._data.dropna()
             cost = time.perf_counter() - start
-            print("      --> Removed n/a values ({} s).".format(cost))
+            print("    --> Removed n/a values ({} s).".format(cost))
 
     def load_new_data(self):
         storage_client = bigquery_storage_v1beta1.BigQueryStorageClient()

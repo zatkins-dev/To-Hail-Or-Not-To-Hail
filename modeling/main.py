@@ -62,18 +62,18 @@ def main():
     output.write("\n")
     print("  --> Model Initialized")
     output.write("  --> Model Initialized\n")
-    model.train(degree=degree)
+    model.train(degree=degree,write=output.write)
     print("  --> Model Trained")
     output.write("  --> Model Trained\n")
     features = cols
     features.remove(target) 
     if degree > 1:
         try:
-            features = model.model._poly_features.get_feature_names(features)
+            features = model.model.model.named_steps['kernel']._poly_features.get_feature_names(features)
         except:
             features = deg2features
-    coefs = model.model.model.coef_[0]
-    inter = model.model.model.intercept_[0]
+    coefs = model.model.model.named_steps['regression'].coef_[0]
+    inter = model.model.model.named_steps['regression'].intercept_[0]
     eqn = "{}".format(round(inter,5))
     for i in range(1,len(features)):
         if len(eqn)>64 and eqn.rfind('\n',len(eqn)-65) == -1:
@@ -84,7 +84,9 @@ def main():
     output.write("    --> Model equation:\n")
     print("        {} = {}".format(target,eqn))
     output.write("        {} = {}\n".format(target,eqn))
-    model.test()
+    print("  --> Testing Model...")
+    output.write("  --> Testing Model...")
+    model.test(write=output.write)
     print("  --> Model Tested")
     output.write("  --> Model Tested\n")
     model.results()

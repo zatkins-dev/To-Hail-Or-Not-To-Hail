@@ -37,7 +37,7 @@ class PolyReg():
             self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/5) if max_rows else None,data_where=data_where)
         print("  --> Loading Test Data")                
 
-    def train(self,degree=2):
+    def train(self,degree=2,write=None):
         if self.model.model is not None:
             print("Warning: Existing model will be overwritten.")
             response = ''
@@ -45,10 +45,10 @@ class PolyReg():
                 response = input("Continue? (Y/n) > ").lower()
             if response == 'n':
                 return
-        self.train_results = self.model.train(self.target, self.train_data, degree=degree)
+        self.train_results = self.model.train(self.target, self.train_data, degree=degree,write=write)
 
-    def test(self):
-        self.test_results = self.model.test(self.test_data)
+    def test(self,write=None):
+        self.test_results = self.model.test(self.test_data,write=write)
 
     def results(self,write=print):
         write("    --> Train Results:")
