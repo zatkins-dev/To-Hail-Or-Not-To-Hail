@@ -50,11 +50,11 @@ class PolyReg():
     def test(self):
         self.test_results = self.model.test(self.test_data)
 
-    def results(self):
-        print("    --> Train Results:")
-        print(self.format_results(self.train_results))
-        print("    --> Test Results:")
-        print(self.format_results(self.test_results))
+    def results(self,write=print):
+        write("    --> Train Results:")
+        write(self.format_results(self.train_results))
+        write("    --> Test Results:")
+        write(self.format_results(self.test_results))
         
     def format_results(self,results):
         if results is None:
