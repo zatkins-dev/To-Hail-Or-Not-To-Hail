@@ -2,7 +2,9 @@ cmle-env
 .vscode/
 .vscode/*
 .vscode/settings.json
-modeling/models/
+*.joblib
+modeling/models/test*
+*.zip
 __pycache__/
 __pycache__/*
 .vs/
