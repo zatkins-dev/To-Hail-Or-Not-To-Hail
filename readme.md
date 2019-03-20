@@ -14,6 +14,10 @@ $ python3 -m modeling
 Then, select between a full model (all rows in dataset, _very_ expensive) and a test model (user-set number of rows from dataset).
 
 Due to file hosting restrictions, a key file is required to download new data.
+In order to set credentials, run
+```
+$ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/key/keyname.json"
+```
 
 ## Data Source:
 https://www.kaggle.com/noaa/gsod
