@@ -34,7 +34,7 @@ class PolyReg():
             self.test_data = Dataset(columns=None)
             self.test_data._data = load(test_data_path)
         else:
-            self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/5),data_where=data_where)
+            self.test_data = Dataset(table_name="test",columns=data_columns, max_size=int(max_rows/5) if max_rows else None,data_where=data_where)
         print("  --> Loading Test Data")                
 
     def train(self,degree=2):

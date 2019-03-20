@@ -44,14 +44,14 @@ def main():
         features = model.model._poly_features.get_feature_names(features)
     coefs = model.model.model.coef_[0]
     inter = model.model.model.intercept_[0]
-    eqn = f"{round(inter,5)}"
+    eqn = "{}".format(round(inter,5))
     for i in range(1,len(features)):
         if len(eqn)>64 and eqn.rfind('\n',len(eqn)-65) == -1:
-            eqn += "\n            "+" + "+f"{round(coefs[i],5)}({features[i]})"
+            eqn += "\n            "+" + "+"{}({})".format(round(coefs[i],5),features[i])
         else:
-            eqn += " + "+f"{round(coefs[i],5)}({features[i]})"
+            eqn += " + "+"{}({})".format(round(coefs[i],5),features[i])
     print("    --> Model equation:")
-    print(f"        {target} = {eqn}")
+    print("        {} = {}".format(target,eqn))
     model.test()
     print("  --> Model Tested")
     model.results()
