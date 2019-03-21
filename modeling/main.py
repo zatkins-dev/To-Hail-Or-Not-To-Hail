@@ -43,9 +43,9 @@ def main():
     
     print("  --> Data Loaded")
     output.write("  --> Data Loaded\n")
-    if train_data_path is not None and train_data_path!=os.path.join(PolyReg.generate_model_path(id),'train_data.joblib'):
+    if train_data_path!=os.path.join(PolyReg.generate_model_path(id),'train_data.joblib'):
         model.save_file('train_data',dir_path=PolyReg.generate_model_path(id))
-    if test_data_path is not None and train_data_path!=os.path.join(PolyReg.generate_model_path(id),'test_data.joblib'):
+    if train_data_path!=os.path.join(PolyReg.generate_model_path(id),'test_data.joblib'):
         model.save_file('test_data',dir_path=PolyReg.generate_model_path(id))
 
     train_desc = model.train_data._data.describe()
