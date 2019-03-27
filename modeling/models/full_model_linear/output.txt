@@ -32,12 +32,19 @@ max    1.200000e+01  1.100000e+02  8.920000e+01  1.078400e+03  1.075800e+03  9.0
              + 0.07737(wdsp) + -2.26751(altitude) + -4.85596(latitude)
              + -5.38868(prcp) + -8.01231(fog) + 1.52667(rain_drizzle)
              + -0.6394(snow_ice_pellets) + -0.04589(hail) + 0.01427(tornado_funnel_cloud)
-  --> Testing Model...      --> Predicting test data...      --> Test data predicted (0.29973086807876825 s).      --> Calculating test accuracy metrics...    --> Test metrics calculated (0.32174336072057486 s).  --> Model Tested
-    --> Train Results:         *  Explained Variance: 0.8863153387232694
+  --> Testing Model...
+    --> Predicting test data...  
+    --> Test data predicted (0.29973086807876825 s).  
+    --> Calculating test accuracy metrics...
+    --> Test metrics calculated (0.32174336072057486 s).
+  --> Model Tested
+    --> Train Results:
+         *  Explained Variance: 0.8863153387232694
          *  R-Squared: 0.8863153387232694
          *  Mean Absolute Error: 5.512322256227655
          *  Root Mean Squared Error: 7.877646912233396
-    --> Test Results:         *  Explained Variance: 0.886315311655528
+    --> Test Results:
+         *  Explained Variance: 0.886315311655528
          *  R-Squared: 0.8863153113842049
          *  Mean Absolute Error: 5.513204281375297
          *  Root Mean Squared Error: 7.879703992470284

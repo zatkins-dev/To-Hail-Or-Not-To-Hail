@@ -76,7 +76,12 @@ max    1.200000e+01  1.100000e+02  8.920000e+01  1.078400e+03  1.075800e+03  9.0
              + -53.67608(snow_ice_pellets^2) + 0.37594(snow_ice_pellets hail)
              + 2.04162(snow_ice_pellets tornado_funnel_cloud) + 36.55272(hail^2)
              + 1.61584(hail tornado_funnel_cloud) + -41.29685(tornado_funnel_cloud^2)
-  --> Testing Model...      --> Predicting test data...      --> Test data predicted (6.62873750180006 s).      --> Calculating test accuracy metrics...    --> Test metrics calculated (0.14758414961397648 s).  --> Model Tested
+  --> Testing Model...
+    --> Predicting test data...
+    --> Test data predicted (6.62873750180006 s).
+    --> Calculating test accuracy metrics...
+    --> Test metrics calculated (0.14758414961397648 s).
+  --> Model Tested
     --> Train Results:         
          *  Mean Absolute Error: 4.574075004228958
          *  Explained Variance: 0.9259563680446253

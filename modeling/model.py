@@ -61,15 +61,15 @@ class Model():
 
     def test(self,test_data,write=None):
         print("    --> Predicting test data...")
-        if write: write("      --> Predicting test data...")
+        if write: write("      --> Predicting test data...\n")
         start = time.perf_counter()
         test_predicted = self._model.predict(test_data.data.loc[:,self._features])
         cost = time.perf_counter() - start
         print("    --> Test data predicted ({} s).".format(cost))
-        if write: write("      --> Test data predicted ({} s).".format(cost))
+        if write: write("      --> Test data predicted ({} s).\n".format(cost))
         
         print("    --> Calculating test accuracy metrics...")
-        if write: write("      --> Calculating test accuracy metrics...")
+        if write: write("      --> Calculating test accuracy metrics...\n")
         start = time.perf_counter()
         me = mean_absolute_error(test_data.data.loc[:, self.target], test_predicted)
         var = explained_variance_score(test_data.data.loc[:, self.target], test_predicted)
@@ -77,7 +77,7 @@ class Model():
         r2 = r2_score(test_data.data.loc[:, self.target], test_predicted)
         cost = time.perf_counter() - start
         print("    --> Test metrics calculated ({} s).".format(cost))
-        if write: write("    --> Test metrics calculated ({} s).".format(cost))
+        if write: write("    --> Test metrics calculated ({} s).\n".format(cost))
         return {'R-Squared':r2, "Explained Variance":var, 'Root Mean Squared Error':rmse, 'Mean Absolute Error':me}
 
     @property
